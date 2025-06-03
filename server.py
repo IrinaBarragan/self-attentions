@@ -9,6 +9,7 @@ import os
 from typing import Dict, List
 from transformers import CLIPTokenizer, CLIPTextModel
 import numpy as np
+from huggingface_hub import hf_hub_download, model_info
 
 app = FastAPI()
 
