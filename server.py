@@ -25,14 +25,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-# Enable memory-efficient attention
-pipe.enable_xformers_memory_efficient_attention()  # Requires xformers in requirements.txt
 
-# Enable model offloading
-pipe.enable_model_cpu_offload()
-
-# Enable sequential CPU offloading (most memory efficient)
-pipe.enable_sequential_cpu_offload()
 # Chargement du modèle
 #MODEL_NAME = "stabilityai/stable-diffusion-xl-base-1.0"
 MODEL_NAME = "runwayml/stable-diffusion-v1-5"
@@ -44,9 +37,20 @@ pipe = StableDiffusionPipeline.from_pretrained(
     low_cpu_mem_usage=True
 ).to(device)
 
-# Optimisations pour CPU
+# Then apply memory optimizations
+try:
+    pipe.enable_xformers_memory_efficient_attention()
+    print("XFormers memory efficient attention enabled")
+except:
+    print("XFormers not available, using default attention")
+
+# Other optimizations (add after pipe is defined)
+pipe.enable_attention_slicing()
 if device == "cpu":
-    pipe.enable_attention_slicing()
+    pipe.enable_sequential_cpu_offload()
+# # Optimisations pour CPU
+# if device == "cpu":
+#     pipe.enable_attention_slicing()
 
 class InputText(BaseModel):
     text: str
@@ -112,4 +116,5 @@ async def analyze_text(request: InputText):
     return analyze_prompt(request.text)
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+      port = int(os.environ.get("PORT", 8000))  # Use Render's PORT or default to 8000
+    uvicorn.run(app, host="0.0.0.0", port=port)
