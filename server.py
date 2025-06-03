@@ -30,7 +30,9 @@ app.add_middleware(
 MODEL_NAME ="segmind/SSD-1B"
 pipe = StableDiffusionPipeline.from_pretrained(
     MODEL_NAME,
-    torch_dtype=torch.float32 if device == "cpu" else torch.float16
+    torch_dtype=torch.float32 if device == "cpu" else torch.float16,
+    use_safetensors=True,
+    low_cpu_mem_usage=True
 ).to(device)
 
 # Optimisations pour CPU

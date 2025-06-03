@@ -1,0 +1,2 @@
+build:
+  cacheVersion: v1  # Helps with dependency caching
