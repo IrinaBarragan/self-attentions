@@ -1,5 +1,9 @@
 build:
   cacheVersion: v1  # Helps with dependency caching
+  commands:
+  - pip install --upgrade pip
+  - pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cpu
+  - pip install -r requirements.txt
   services:
   - type: web
     name: stable-diffusion-api

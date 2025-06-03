@@ -25,7 +25,14 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+# Enable memory-efficient attention
+pipe.enable_xformers_memory_efficient_attention()  # Requires xformers in requirements.txt
 
+# Enable model offloading
+pipe.enable_model_cpu_offload()
+
+# Enable sequential CPU offloading (most memory efficient)
+pipe.enable_sequential_cpu_offload()
 # Chargement du modèle
 #MODEL_NAME = "stabilityai/stable-diffusion-xl-base-1.0"
 MODEL_NAME = "runwayml/stable-diffusion-v1-5"
