@@ -27,7 +27,8 @@ app.add_middleware(
 
 # Chargement du modèle
 #MODEL_NAME = "stabilityai/stable-diffusion-xl-base-1.0"
-MODEL_NAME ="segmind/SSD-1B"
+MODEL_NAME = "runwayml/stable-diffusion-v1-5"
+#MODEL_NAME ="segmind/SSD-1B"
 pipe = StableDiffusionPipeline.from_pretrained(
     MODEL_NAME,
     torch_dtype=torch.float32 if device == "cpu" else torch.float16,
