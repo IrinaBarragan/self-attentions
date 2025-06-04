@@ -108,10 +108,13 @@ def analyze_prompt(prompt: str) -> AnalysisResponse:
         least_influential=valid_tokens[sorted_indices[-1]]
     )
 
+@app.get("/")
+def read_root():
+    return {"message": "Hello from FastAPI on Render!"}
 @app.post("/attention")
 async def analyze_text(request: InputText):
     return analyze_prompt(request.text)
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 8000))
+    port = int(os.environ.get("PORT", 10000))
     uvicorn.run("server:app", host="0.0.0.0", port=port)
