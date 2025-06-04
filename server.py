@@ -36,7 +36,6 @@ pipe = StableDiffusionPipeline.from_pretrained(
     use_safetensors=True,
     low_cpu_mem_usage=True
 ).to(device)
-
 # Then apply memory optimizations
 try:
     pipe.enable_xformers_memory_efficient_attention()
@@ -46,11 +45,9 @@ except:
 
 # Other optimizations (add after pipe is defined)
 pipe.enable_attention_slicing()
+# Optimisations pour CPU
 if device == "cpu":
-    pipe.enable_sequential_cpu_offload()
-# # Optimisations pour CPU
-# if device == "cpu":
-#     pipe.enable_attention_slicing()
+    pipe.enable_attention_slicing()
 
 class InputText(BaseModel):
     text: str
@@ -116,5 +113,4 @@ async def analyze_text(request: InputText):
     return analyze_prompt(request.text)
 
 if __name__ == "__main__":
-      port = int(os.environ.get("PORT", 8000))  # Use Render's PORT or default to 8000
-    uvicorn.run(app, host="0.0.0.0", port=port)
+    uvicorn.run(app, host="0.0.0.0", port=8000)
