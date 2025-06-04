@@ -9,7 +9,7 @@ build:
     name: stable-diffusion-api
     env: python
     buildCommand: pip install -r requirements.txt
-    startCommand: python server.py
+    startCommand: python uvicorn server:app --host=0.0.0.0 --port=$PORT
     plan: free  # ou upgrade si nécessaire
       - type: web
     port: 8000  # Explicitly declare the port
