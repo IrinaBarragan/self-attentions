@@ -1,18 +1,17 @@
 build:
-  cacheVersion: v1  # Helps with dependency caching
+  cacheVersion: v1
   commands:
-  - pip install --upgrade pip
-  - pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cpu
-  - pip install -r requirements.txt
-  services:
+    - pip install --upgrade pip
+    - pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cpu
+    - pip install -r requirements.txt
+
+services:
   - type: web
     name: stable-diffusion-api
     env: python
     buildCommand: pip install -r requirements.txt
-    startCommand: python uvicorn server:app --host 0.0.0.0
-    plan: free  # ou upgrade si nécessaire
-      - type: web
-
+    startCommand: python -m uvicorn server:app --host 0.0.0.0 --port 10000
+    plan: free
     envVars:
       - key: PORT
-        value: 10000
+        value: "10000"
