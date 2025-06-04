@@ -10,7 +10,7 @@ services:
     name: stable-diffusion-api
     env: python
     buildCommand: pip install -r requirements.txt
-    startCommand: python -m uvicorn server:app --host 0.0.0.0 --port 10000
+    startCommand: python -m uvicorn server:app --host "0.0.0.0" --port "10000"
     plan: free
     envVars:
       - key: PORT
